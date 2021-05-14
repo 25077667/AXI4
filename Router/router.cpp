@@ -26,28 +26,43 @@ void Router::input()
 
 void Router::output()
 {
-    N_O.write_address_channel.write(buf_no.write_addr.front());
-    buf_no.write_addr.pop();
+    if(N_O.write_address_channel.read() != buf_no.write_addr.front())
+    {
+        N_O.write_address_channel.write(buf_no.write_addr.front());
+        buf_no.write_addr.pop();
+    }
     N_O.write_data_channel.write(buf_no.write_data.front());
     buf_no.write_data.pop();
 
-    S_O.write_address_channel.write(buf_so.write_addr.front());
-    buf_so.write_addr.pop();
+    if(S_O.write_address_channel.read() != buf_so.write_addr.front())
+    {
+        S_O.write_address_channel.write(buf_so.write_addr.front());
+        buf_so.write_addr.pop();
+    }
     S_O.write_data_channel.write(buf_so.write_data.front());
     buf_so.write_data.pop();
 
-    E_O.write_address_channel.write(buf_eo.write_addr.front());
-    buf_eo.write_addr.pop();
+    if(E_O.write_address_channel.read() != buf_eo.write_addr.front())
+    {
+        E_O.write_address_channel.write(buf_eo.write_addr.front());
+        buf_eo.write_addr.pop();
+    }
     E_O.write_data_channel.write(buf_eo.write_data.front());
     buf_eo.write_data.pop();
 
-    W_O.write_address_channel.write(buf_wo.write_addr.front());
-    buf_wo.write_addr.pop();
+    if(W_O.write_address_channel.read() != buf_wo.write_addr.front())
+    {
+        W_O.write_address_channel.write(buf_wo.write_addr.front());
+        buf_wo.write_addr.pop();
+    }
     W_O.write_data_channel.write(buf_wo.write_data.front());
     buf_wo.write_data.pop();
 
-    L_O.write_address_channel.write(buf_lo.write_addr.front());
-    buf_lo.write_addr.pop();
+    if(L_O.write_address_channel.read() != buf_lo.write_addr.front())
+    {
+        L_O.write_address_channel.write(buf_lo.write_addr.front());
+        buf_lo.write_addr.pop();
+    }
     L_O.write_data_channel.write(buf_lo.write_data.front());
     buf_lo.write_data.pop();
 }
