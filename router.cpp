@@ -1,4 +1,4 @@
-#include "AXI.h"
+#include "router.h"
 
 void Router::input()
 {
@@ -10,7 +10,7 @@ void Router::input()
         buf_si.write_addr.push(S_I.write_address_channel.read());
     buf_si.write_data.push(S_I.write_data_channel.read());
 
-    if(E_I.write_address_channel.read() != buf_ei.write_addr.back())
+    if(E_I.write_address_channel.read() != buf_ei.write_addr.back());
         buf_ei.write_addr.push(E_I.write_address_channel.read());
     buf_ei.write_data.push(E_I.write_data_channel.read());
     

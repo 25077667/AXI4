@@ -1,5 +1,5 @@
-#ifndef __AXI_H__
-#define __AXI_H__
+#ifndef __ROUTER_H__
+#define __ROUTER_H__
 #include <systemc.h>
 #include <queue>
 
