@@ -2,9 +2,9 @@
 
 void Router::input()
 {
-    if(E_I.write_address_channel.read() != buf_ei.write_addr.back())
-        buf_ei.write_addr.push(E_I.write_address_channel.read());
-    buf_ei.write_data.push(E_I.write_data_channel.read());
+    if(N_I.write_address_channel.read() != buf_ni.write_addr.back())
+        buf_ni.write_addr.push(N_I.write_address_channel.read());
+    buf_ni.write_data.push(N_I.write_data_channel.read());
     
     if(S_I.write_address_channel.read() != buf_si.write_addr.back())
         buf_si.write_addr.push(S_I.write_address_channel.read());
@@ -17,6 +17,10 @@ void Router::input()
     if(W_I.write_address_channel.read() != buf_wi.write_addr.back())
         buf_wi.write_addr.push(W_I.write_address_channel.read());
     buf_wi.write_data.push(W_I.write_data_channel.read());
+
+    if(L_I.write_address_channel.read() != buf_li.write_addr.back())
+        buf_li.write_addr.push(L_I.write_address_channel.read());
+    buf_li.write_data.push(L_I.write_data_channel.read());
    
 }
 
