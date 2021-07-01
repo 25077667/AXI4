@@ -1,7 +1,8 @@
-#include "router.h"
-
+//#include "router.h"
+#include <systemc.h>
 int sc_main(int argc , char *argv[])
-{   sc_signal<sc_bv<32>,SC_MANY_WRITERS > b1,b2,b3,b4,b5,b6;
+{   
+    /*sc_signal<sc_bv<32>,SC_MANY_WRITERS > b1,b2,b3,b4,b5,b6;
     Router a("00");
     a.channel_north(b1);
     a.channel_south(b2);
@@ -19,7 +20,11 @@ int sc_main(int argc , char *argv[])
     b.set_position(0,1);
     b4.write("11111111111111111111111111111111");
     sc_start();
-    cout << b6.read() << endl;
+    cout << b6.read() << endl;*/
     //b.print();
+    sc_bv<32> test;
+    test = "11111111000000001111111100000000";
+    cout << test << endl;
+
     return 0;
 }
