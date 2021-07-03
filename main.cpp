@@ -1,5 +1,6 @@
 //#include "router.h"
 #include <systemc.h>
+#include "NI/network_interface.h"
 int sc_main(int argc , char *argv[])
 {   
     /*sc_signal<sc_bv<32>,SC_MANY_WRITERS > b1,b2,b3,b4,b5,b6;
@@ -22,9 +23,8 @@ int sc_main(int argc , char *argv[])
     sc_start();
     cout << b6.read() << endl;*/
     //b.print();
-    sc_bv<32> test;
-    test = "11111111000000001111111100000000";
+        
+    Write_Addr test = Write_Addr((Byte)3,(Int)12);
     cout << test << endl;
-
     return 0;
 }
