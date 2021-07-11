@@ -12,7 +12,9 @@ class AXI
 {
     public:
         //channel
-        sc_inout<sc_bv<32> > read_address_channel, read_data_channel , write_address_channel , write_data_channel , write_response_channel;
+        sc_inout<sc_uint<54> > read_address_channel , write_address_channel;
+        sc_inout<sc_uint<41> > read_data_channel, write_data_channel;
+        sc_inout<sc_uint<6> > write_response_channel;
         //READY
         sc_inout<sc_bit> AWREADY , WREADY , ARREADY , RREADY , BREADY;
         //VALID
@@ -21,8 +23,10 @@ class AXI
 
 class Buffer
 {
-    public:
-        queue<sc_bv<32> > write_data , read_data , write_addr , read_addr; 
+    public: 
+        queue<sc_uint<54> > read_addr , write_addr;
+        queue<sc_uint<41> > read_data, write_data;
+        queue<sc_uint<6> > write_response;
 };
 
 SC_MODULE(Router)
