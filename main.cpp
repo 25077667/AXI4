@@ -1,5 +1,5 @@
 //#include "router.h"
-#include <systemc.h>
+//#include <systemc.h>
 #include "NI/network_interface.h"
 int sc_main(int argc , char *argv[])
 {   
@@ -24,7 +24,10 @@ int sc_main(int argc , char *argv[])
     cout << b6.read() << endl;*/
     //b.print();
         
-    Write_Addr test = Write_Addr((Byte)3,(Int)12);
-    cout << test << endl;
+    //Write_Addr test = Write_Addr((Byte)3,(Int)12);
+    //cout << test << endl;
+    Write_Addr test(1,1);
+
+    cout << test.get() << endl;
     return 0;
 }

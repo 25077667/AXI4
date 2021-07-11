@@ -1,93 +1,70 @@
 #include "network_interface.h"
 
-Write_Addr::Write_Addr(Byte awid,Int awaddr,Byte awlen,Byte awsize,Byte awburst,Byte awlock,Byte awcache,Byte awport)
+Write_Addr::Write_Addr(sc_uint<4> awid,sc_uint<32> awaddr,sc_uint<4>awlen,sc_uint<3>awsize,sc_uint<2>awburst,sc_uint<2>awlock,sc_uint<4>awcache,sc_uint<3>awport)
 {
-    AWID = awid;
-    AWADDR = awaddr;
-    AWLEN = awlen;
-    AWSIZE = awsize;
-    AWLOCK = awlock;
-    AWCACHE = awcache;
-    AWPORT = awport;   
+    data = awid;
+    data <<= 32;
+    data += awaddr;
+    data <<= 4;
+    data += awlen;
+    data <<= 3;
+    data += awsize;
+    data <<= 2;
+    data += awburst;
+    data <<= 2;
+    data += awlock;
+    data <<= 4;
+    data += awcache;
+    data <<= 3;
+    data += awport;
+}
+
+Write_Data::Write_Data(sc_uint<4> wid,sc_uint<32> wdata,sc_uint<4> wstrb,sc_uint<1> wlast)
+{
+    data = wid;
+    data <<= 32;
+    data += wdata;
+    data <<= 4;
+    data += wstrb;
+    data <<= 1;
+    data += wlast;
+}
+
+Write_Responce::Write_Responce(sc_uint<4> bid,sc_uint<2> bresp)
+{
+    data = bid;
+    data <<= 2;
+    data += bresp;
+}
+
+Read_Addr::Read_Addr(sc_uint<4> arid,sc_uint<32> araddr,sc_uint<4>arlen,sc_uint<3>arsize,sc_uint<2>arburst,sc_uint<2>arlock,sc_uint<4>arcache,sc_uint<3>arport)
+{
+    data = arid;
+    data <<= 32;
+    data += araddr;
+    data <<= 4;
+    data += arlen;
+    data <<= 3;
+    data += arsize;
+    data <<= 2;
+    data += arburst;
+    data <<= 2;
+    data += arlock;
+    data <<= 4;
+    data += arcache;
+    data <<= 3;
+    data += arport;
+}
+
+Read_Data::Read_Data(sc_uint<4> rid,sc_uint<32> rdata,sc_uint<4> rstrb,sc_uint<1> rlast)
+{
+    data = rid;
+    data <<= 32;
+    data += rdata;
+    data <<= 4;
+    data += rstrb;
+    data <<= 1;
+    data += rlast;
 }
 
 
-Write_Data::Write_Data(Byte wid,Int wdata,Byte wstrb,Byte wlast)
-{
-    WID = wid;
-    WDATA = wdata;
-    WSTRB = wstrb;
-    WLAST = wlast;
-}
-
-Write_Responce::Write_Responce(Byte bid,Byte bresp)
-{
-    BID = bid;
-    BRESP = bresp;
-}
-
-Read_Addr::Read_Addr(Byte arid,Int araddr,Byte arlen,Byte arsize,Byte arburst,Byte arlock,Byte arcache,Byte arport)
-{
-    ARID = arid;
-    ARADDR = araddr;
-    ARLEN = arlen;
-    ARSIZE = arsize;
-    ARLOCK = arlock;
-    ARCACHE = arcache;
-    ARPORT = arport;   
-}
-
-Read_Data::Read_Data(Byte rid,Int rdata,Byte rstrb,Byte rlast)
-{
-    RID = rid;
-    RDATA = rdata;
-    RSTRB = rstrb;
-    RLAST = rlast;
-}
-
-ostream& operator << (ostream& s, Write_Addr x)
-{
-    s << "AWID\t=\t" << (int)x.AWID << endl;
-    s << "AWADDR\t=\t" << x.AWADDR << endl;
-    s << "AWLEN\t=\t" << (int)x.AWLEN << endl;
-    s << "AWLOCK\t=\t" << (int)x.AWLOCK << endl;
-    s << "AWCACHE\t=\t" << (int)x.AWCACHE << endl;
-    s << "AWPROT\t=\t" << (int)x.AWPORT;
-    return s;
-}
-
-ostream& operator << (ostream& s, Write_Responce x)
-{
-    s << "BID\t=\t" << (int)x.BID << endl;
-    s << "BRESP\t=\t" << (int)x.BRESP;
-    return s;
-}
-
-ostream& operator << (ostream& s, Read_Data x)
-{
-    s << "RID\t=\t" << (int)x.RID << endl;
-    s << "RDATA\t=\t" << x.RDATA << endl;
-    s << "RSTRB\t=\t" << (int)x.RSTRB << endl;
-    s << "RLAST\t=\t" << (int)x.RLAST;
-    return s;
-}
-
-ostream& operator << (ostream& s, Read_Addr x)
-{
-    s << "ARID\t=\t" << (int)x.ARID << endl;
-    s << "ARADDR\t=\t" << x.ARADDR << endl;
-    s << "ARLEN\t=\t" << (int)x.ARLEN << endl;
-    s << "ARLOCK\t=\t" << (int)x.ARLOCK << endl;
-    s << "ARCACHE\t=\t" << (int)x.ARCACHE << endl;
-    s << "ARPROT\t=\t" << (int)x.ARPORT;
-    return s;
-}
-
-ostream& operator << (ostream& s, Write_Data x)
-{
-    s << "WID\t=\t" << (int)x.WID << endl;
-    s << "WDATA\t=\t" << x.WDATA << endl;
-    s << "WSTRB\t=\t" << (int)x.WSTRB << endl;
-    s << "WLAST\t=\t" << (int)x.WLAST;
-    return s;
-}
