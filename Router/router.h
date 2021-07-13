@@ -5,6 +5,7 @@
 
 #define MAX_ADDR_SIZE  3
 #define MAX_DATA_SIZE  6
+#define AXI_NUM_PER_ROUTER 10
 
 using namespace std;
 
