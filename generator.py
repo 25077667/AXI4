@@ -1,6 +1,8 @@
-file = open("testfile.cpp","w")
-x = input("x : ")
-y = input("y : ")
+import sys
+file = open("\\\\wsl$\\Arch\\home\\daven\\NSYSU_Project\\testfile.cpp","w")
+x = sys.argv[1]
+y = sys.argv[2]
+print(x,y)
 str4replace = "B"
 str2write = '''#include \"Router/router.h\"
 #include \"NI/network_interface.h\"
