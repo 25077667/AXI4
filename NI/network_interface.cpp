@@ -37,7 +37,7 @@ Write_Responce::Write_Responce(sc_uint<4> bid,sc_uint<2> bresp)
     data += bresp;
 }
 
-Read_Addr::Read_Addr(sc_uint<4> arid,sc_uint<32> araddr,sc_uint<4>arlen,sc_uint<3>arsize,sc_uint<2>arburst,sc_uint<2>arlock,sc_uint<4>arcache,sc_uint<3>arport)
+/*Read_Addr::Read_Addr(sc_uint<4> arid,sc_uint<32> araddr,sc_uint<4>arlen,sc_uint<3>arsize,sc_uint<2>arburst,sc_uint<2>arlock,sc_uint<4>arcache,sc_uint<3>arport)
 {
     data = arid;
     data <<= 32;
@@ -67,4 +67,4 @@ Read_Data::Read_Data(sc_uint<4> rid,sc_uint<32> rdata,sc_uint<4> rstrb,sc_uint<1
     data += rlast;
 }
 
-
+*/

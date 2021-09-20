@@ -3,90 +3,90 @@
 void Router::input()
 {
 
-    if(N_I.write_address_channel.read() != buf_ni.write_addr.back())
-        buf_ni.write_addr.push(N_I.write_address_channel.read());
-    if((bool)(N_I.WREADY.read()) && (bool)(N_I.WVALID.read()))
-        buf_ni.write_data.push(N_I.write_data_channel.read());
-    if(S_I.write_address_channel.read() != buf_si.write_addr.back())
-        buf_si.write_addr.push(S_I.write_address_channel.read());
-    if((bool)(S_I.WREADY.read()) && (bool)(S_I.WVALID.read()))    
-        buf_si.write_data.push(S_I.write_data_channel.read());
+    if(I[position::north].write_address_channel.read() != i[position::north].write_addr.back())
+        i[position::north].write_addr.push(I[position::north].write_address_channel.read());
+    if((bool)(I[position::north].WREADY.read()) && (bool)(I[position::north].WVALID.read()))
+        i[position::north].write_data.push(I[position::north].write_data_channel.read());
+    if(I[position::south].write_address_channel.read() != i[position::south].write_addr.back())
+        i[position::south].write_addr.push(I[position::south].write_address_channel.read());
+    if((bool)(I[position::south].WREADY.read()) && (bool)(I[position::south].WVALID.read()))    
+        i[position::south].write_data.push(I[position::south].write_data_channel.read());
 
-    if(E_I.write_address_channel.read() != buf_ei.write_addr.back());
-        buf_ei.write_addr.push(E_I.write_address_channel.read());
-    if((bool)(E_I.WREADY.read()) && (bool)(E_I.WVALID.read()))    
-        buf_ei.write_data.push(E_I.write_data_channel.read());
+    if(I[position::east].write_address_channel.read() != i[position::east].write_addr.back());
+        i[position::east].write_addr.push(I[position::east].write_address_channel.read());
+    if((bool)(I[position::east].WREADY.read()) && (bool)(I[position::east].WVALID.read()))    
+        i[position::east].write_data.push(I[position::east].write_data_channel.read());
     
-    if(W_I.write_address_channel.read() != buf_wi.write_addr.back())
-        buf_wi.write_addr.push(W_I.write_address_channel.read());
-    if((bool)(W_I.WREADY.read()) && (bool)(W_I.WVALID.read()))
-        buf_wi.write_data.push(W_I.write_data_channel.read());
+    if(I[position::west].write_address_channel.read() != i[position::west].write_addr.back())
+        i[position::west].write_addr.push(I[position::west].write_address_channel.read());
+    if((bool)(I[position::west].WREADY.read()) && (bool)(I[position::west].WVALID.read()))
+        i[position::west].write_data.push(I[position::west].write_data_channel.read());
 
-    if(L_I.write_address_channel.read() != buf_li.write_addr.back())
-        buf_li.write_addr.push(L_I.write_address_channel.read());
-    if((bool)(L_I.WREADY.read()) && (bool)(L_I.WVALID.read()))        
-        buf_li.write_data.push(L_I.write_data_channel.read());
+    if(I[position::local].write_address_channel.read() != i[position::local].write_addr.back())
+        i[position::local].write_addr.push(I[position::local].write_address_channel.read());
+    if((bool)(I[position::local].WREADY.read()) && (bool)(I[position::local].WVALID.read()))        
+        i[position::local].write_data.push(I[position::local].write_data_channel.read());
    
 }
 
 void Router::output()
 {
-    if(N_O.write_address_channel.read() != buf_no.write_addr.front())
+    if(O[position::north].write_address_channel.read() != o[position::north].write_addr.front())
     {
-        N_O.write_address_channel.write(buf_no.write_addr.front());
-        buf_no.write_addr.pop();
+        O[position::north].write_address_channel.write(o[position::north].write_addr.front());
+        o[position::north].write_addr.pop();
     }
-    if((bool)(N_O.WREADY.read()) && (bool)(N_O.WVALID.read()))
+    if((bool)(O[position::north].WREADY.read()) && (bool)(O[position::north].WVALID.read()))
     {
-        N_O.write_data_channel.write(buf_no.write_data.front());
-        buf_no.write_data.pop();
-    }
-    
-    if(S_O.write_address_channel.read() != buf_so.write_addr.front())
-    {
-        S_O.write_address_channel.write(buf_so.write_addr.front());
-        buf_so.write_addr.pop();
-    }
-    if((bool)(S_O.WREADY.read()) && (bool)(S_O.WVALID.read()))
-    {
-        S_O.write_data_channel.write(buf_so.write_data.front());
-        buf_so.write_data.pop();
+        O[position::north].write_data_channel.write(o[position::north].write_data.front());
+        o[position::north].write_data.pop();
     }
     
-
-    if(E_O.write_address_channel.read() != buf_eo.write_addr.front())
+    if(O[position::south].write_address_channel.read() != o[position::south].write_addr.front())
     {
-        E_O.write_address_channel.write(buf_eo.write_addr.front());
-        buf_eo.write_addr.pop();
+        O[position::south].write_address_channel.write(o[position::south].write_addr.front());
+        o[position::south].write_addr.pop();
     }
-    if((bool)(E_O.WREADY.read()) && (bool)(E_O.WVALID.read()))
+    if((bool)(O[position::south].WREADY.read()) && (bool)(O[position::south].WVALID.read()))
     {
-        E_O.write_data_channel.write(buf_eo.write_data.front());
-        buf_eo.write_data.pop();
+        O[position::south].write_data_channel.write(o[position::south].write_data.front());
+        o[position::south].write_data.pop();
     }
     
 
-    if(W_O.write_address_channel.read() != buf_wo.write_addr.front())
+    if(O[position::east].write_address_channel.read() != o[position::east].write_addr.front())
     {
-        W_O.write_address_channel.write(buf_wo.write_addr.front());
-        buf_wo.write_addr.pop();
+        O[position::east].write_address_channel.write(o[position::east].write_addr.front());
+        o[position::east].write_addr.pop();
     }
-    if((bool)(W_O.WREADY.read()) && (bool)(W_O.WVALID.read()))
+    if((bool)(O[position::east].WREADY.read()) && (bool)(O[position::east].WVALID.read()))
     {
-        W_O.write_data_channel.write(buf_wo.write_data.front());
-        buf_wo.write_data.pop();
+        O[position::east].write_data_channel.write(o[position::east].write_data.front());
+        o[position::east].write_data.pop();
     }
     
 
-    if(L_O.write_address_channel.read() != buf_lo.write_addr.front())
+    if(O[position::west].write_address_channel.read() != o[position::west].write_addr.front())
     {
-        L_O.write_address_channel.write(buf_lo.write_addr.front());
-        buf_lo.write_addr.pop();
+        O[position::west].write_address_channel.write(o[position::west].write_addr.front());
+        o[position::west].write_addr.pop();
     }
-    if((bool)(L_O.WREADY.read()) && (bool)(L_O.WVALID.read()))
+    if((bool)(O[position::west].WREADY.read()) && (bool)(O[position::west].WVALID.read()))
     {
-        L_O.write_data_channel.write(buf_lo.write_data.front());
-        buf_lo.write_data.pop();
+        O[position::west].write_data_channel.write(o[position::west].write_data.front());
+        o[position::west].write_data.pop();
+    }
+    
+
+    if(O[position::local].write_address_channel.read() != o[position::local].write_addr.front())
+    {
+        O[position::local].write_address_channel.write(o[position::local].write_addr.front());
+        o[position::local].write_addr.pop();
+    }
+    if((bool)(O[position::local].WREADY.read()) && (bool)(O[position::local].WVALID.read()))
+    {
+        O[position::local].write_data_channel.write(o[position::local].write_data.front());
+        o[position::local].write_data.pop();
     }
 }
 

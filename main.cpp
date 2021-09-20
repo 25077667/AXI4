@@ -3,152 +3,198 @@
 
 int sc_main(int argc , char *argv[])
 {   
-    //sc_signal<sc_bv<32>,SC_MANY_WRITERS > b1,b2,b3,b4,b5,b6;
-    sc_signal<sc_uint<54>,SC_MANY_WRITERS > a_aw[AXI_NUM_PER_ROUTER],a_ar[AXI_NUM_PER_ROUTER],b_aw[AXI_NUM_PER_ROUTER],b_ar[AXI_NUM_PER_ROUTER];
-    sc_signal<sc_uint<41>,SC_MANY_WRITERS > a_w[AXI_NUM_PER_ROUTER],a_r[AXI_NUM_PER_ROUTER],b_w[AXI_NUM_PER_ROUTER],b_r[AXI_NUM_PER_ROUTER];
-    sc_signal<sc_uint<6>,SC_MANY_WRITERS > a_wr[AXI_NUM_PER_ROUTER],b_wr[AXI_NUM_PER_ROUTER];
-    sc_signal<sc_bit> a_awready[AXI_NUM_PER_ROUTER],a_wready[AXI_NUM_PER_ROUTER],a_arready[AXI_NUM_PER_ROUTER],a_rready[AXI_NUM_PER_ROUTER],a_bready[AXI_NUM_PER_ROUTER];
-    sc_signal<sc_bit> awvalid[AXI_NUM_PER_ROUTER],wvalid[AXI_NUM_PER_ROUTER],arvalid[AXI_NUM_PER_ROUTER],rvalid[AXI_NUM_PER_ROUTER],bvalid[AXI_NUM_PER_ROUTER];
+    int x,y;
+    cout << "(x,y) :" ;
+    //cin >> x >> y;
+    cout << "(0,0)" << endl;
+    x = y = 1;
+    //Write Address Channel
+    sc_signal<sc_uint<54>,SC_MANY_WRITERS > aw[IO_PORT_NUM][DIRECTION_NUM][x][y+1];
+    sc_signal<sc_uint<54>,SC_MANY_WRITERS > aw_local[IO_PORT_NUM][x][y];
+    //Write Data Channel
+    sc_signal<sc_uint<41>,SC_MANY_WRITERS > w[IO_PORT_NUM][DIRECTION_NUM][x][y+1];
+    sc_signal<sc_uint<41>,SC_MANY_WRITERS > w_local[IO_PORT_NUM][x][y];
+    //Write Response Channel
+    sc_signal<sc_uint<6>,SC_MANY_WRITERS > b[IO_PORT_NUM][DIRECTION_NUM][x][y+1];
+    sc_signal<sc_uint<6>,SC_MANY_WRITERS > b_local[IO_PORT_NUM][x][y];
+    //Ready signals
+    sc_signal<bool> awready[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , awready_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> wready[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , wready_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> arready[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , arready_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> rready[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , rready_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> bready[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , bready_local[IO_PORT_NUM][x][y];
+    //Valid signals
+    sc_signal<bool> awvalid[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , awvalid_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> wvalid[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , wvalid_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> arvalid[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , arvalid_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> rvalid[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , rvalid_local[IO_PORT_NUM][x][y];
+    sc_signal<bool> bvalid[IO_PORT_NUM][DIRECTION_NUM][x][y+1] , bvalid_local[IO_PORT_NUM][x][y];
+
+    Router a00("00");
+    //input
+    a00.I[north].write_address_channel(aw[I][u_d][0][0]);
+    a00.I[south].write_address_channel(aw[I][u_d][0][1]);
+    a00.I[east].write_address_channel(aw[I][l_r][0][0]);
+    a00.I[west].write_address_channel(aw[I][l_r][0][1]);
+    a00.I[local].write_address_channel(aw_local[I][0][0]);
+
+    a00.I[north].write_data_channel(w[I][u_d][0][0]);
+    a00.I[south].write_data_channel(w[I][u_d][0][1]);
+    a00.I[east].write_data_channel(w[I][l_r][0][0]);
+    a00.I[west].write_data_channel(w[I][l_r][0][1]);
+    a00.I[local].write_data_channel(w_local[I][0][0]);
+
+    a00.I[north].write_response_channel(b[I][u_d][0][0]);
+    a00.I[south].write_response_channel(b[I][u_d][0][1]);
+    a00.I[east].write_response_channel(b[I][l_r][0][0]);
+    a00.I[west].write_response_channel(b[I][l_r][0][1]);
+    a00.I[local].write_response_channel(b_local[I][0][0]);
+
+    a00.I[north].AWVALID(awvalid[I][u_d][0][0]);
+    a00.I[south].AWVALID(awvalid[I][u_d][0][1]);
+    a00.I[east].AWVALID(awvalid[I][l_r][0][0]);
+    a00.I[west].AWVALID(awvalid[I][l_r][0][1]);
+    a00.I[local].AWVALID(awvalid_local[I][0][0]);
+
+    a00.I[north].WVALID(wvalid[I][u_d][0][0]);
+    a00.I[south].WVALID(wvalid[I][u_d][0][1]);
+    a00.I[east].WVALID(wvalid[I][l_r][0][0]);
+    a00.I[west].WVALID(wvalid[I][l_r][0][1]);
+    a00.I[local].WVALID(wvalid_local[I][0][0]);
+
+    a00.I[north].ARVALID(arvalid[I][u_d][0][0]);
+    a00.I[south].ARVALID(arvalid[I][u_d][0][1]);
+    a00.I[east].ARVALID(arvalid[I][l_r][0][0]);
+    a00.I[west].ARVALID(arvalid[I][l_r][0][1]);
+    a00.I[local].ARVALID(arvalid_local[I][0][0]);
 
 
-    Router A("00");
-    A.E_I.write_address_channel(a_aw[0]);
-    A.E_I.write_data_channel(a_w[0]);
-    A.E_I.read_address_channel(a_ar[0]);
-    A.E_I.read_data_channel(a_r[0]);
-    A.E_I.write_response_channel(a_wr[0]);
-    A.E_I.AWREADY(a_awready[0]);
-    A.E_I.WREADY(a_wready[0]);
-    A.E_I.ARREADY(a_arready[0]);
-    A.E_I.RREADY(a_rready[0]);
-    A.E_I.BREADY(a_bready[0]);
-    A.E_I.BVALID(bvalid[0]);
+    a00.I[north].RVALID(rvalid[I][u_d][0][0]);
+    a00.I[south].RVALID(rvalid[I][u_d][0][1]);
+    a00.I[east].RVALID(rvalid[I][l_r][0][0]);
+    a00.I[west].RVALID(rvalid[I][l_r][0][1]);
+    a00.I[local].RVALID(rvalid_local[I][0][0]);
 
-    A.W_I.write_address_channel(a_aw[1]);
-    A.W_I.write_data_channel(a_w[1]);
-    A.W_I.read_address_channel(a_ar[1]);
-    A.W_I.read_data_channel(a_r[1]);
-    A.W_I.write_response_channel(a_wr[1]);
-    A.W_I.AWREADY(a_awready[1]);
-    A.W_I.WREADY(a_wready[1]);
-    A.W_I.ARREADY(a_arready[1]);
-    A.W_I.RREADY(a_rready[1]);
-    A.W_I.BREADY(a_bready[1]);
-    A.W_I.BVALID(bvalid[1]);
+    a00.I[north].BVALID(bvalid[I][u_d][0][0]);
+    a00.I[south].BVALID(bvalid[I][u_d][0][1]);
+    a00.I[east].BVALID(bvalid[I][l_r][0][0]);
+    a00.I[west].BVALID(bvalid[I][l_r][0][1]);
+    a00.I[local].BVALID(bvalid_local[I][0][0]);
 
-    A.N_I.write_address_channel(a_aw[2]);
-    A.N_I.write_data_channel(a_w[2]);
-    A.N_I.read_address_channel(a_ar[2]);
-    A.N_I.read_data_channel(a_r[2]);
-    A.N_I.write_response_channel(a_wr[2]);
-    A.N_I.AWREADY(a_awready[2]);
-    A.N_I.WREADY(a_wready[2]);
-    A.N_I.ARREADY(a_arready[2]);
-    A.N_I.RREADY(a_rready[2]);
-    A.N_I.BREADY(a_bready[2]);
-    A.N_I.BVALID(bvalid[2]);
+    a00.I[north].AWREADY(awready[I][u_d][0][0]);
+    a00.I[south].AWREADY(awready[I][u_d][0][1]);
+    a00.I[east].AWREADY(awready[I][l_r][0][0]);
+    a00.I[west].AWREADY(awready[I][l_r][0][1]);
+    a00.I[local].AWREADY(awready_local[I][0][0]);
 
-    A.S_I.write_address_channel(a_aw[3]);
-    A.S_I.write_data_channel(a_w[3]);
-    A.S_I.read_address_channel(a_ar[3]);
-    A.S_I.read_data_channel(a_r[3]);
-    A.S_I.write_response_channel(a_wr[3]);
-    A.S_I.AWREADY(a_awready[3]);
-    A.S_I.WREADY(a_wready[3]);
-    A.S_I.ARREADY(a_arready[3]);
-    A.S_I.RREADY(a_rready[3]);
-    A.S_I.BREADY(a_bready[3]);
-    A.S_I.BVALID(bvalid[3]);
+    a00.I[north].WREADY(wready[I][u_d][0][0]);
+    a00.I[south].WREADY(wready[I][u_d][0][1]);
+    a00.I[east].WREADY(wready[I][l_r][0][0]);
+    a00.I[west].WREADY(wready[I][l_r][0][1]);
+    a00.I[local].WREADY(wready_local[I][0][0]);
 
-    A.L_I.write_address_channel(a_aw[4]);
-    A.L_I.write_data_channel(a_w[4]);
-    A.L_I.read_address_channel(a_ar[4]);
-    A.L_I.read_data_channel(a_r[4]);
-    A.L_I.write_response_channel(a_wr[4]);
-    A.L_I.AWREADY(a_awready[4]);
-    A.L_I.WREADY(a_wready[4]);
-    A.L_I.ARREADY(a_arready[4]);
-    A.L_I.RREADY(a_rready[4]);
-    A.L_I.BREADY(a_bready[4]);
-    A.L_I.BVALID(bvalid[4]);
+    a00.I[north].ARREADY(arready[I][u_d][0][0]);
+    a00.I[south].ARREADY(arready[I][u_d][0][1]);
+    a00.I[east].ARREADY(arready[I][l_r][0][0]);
+    a00.I[west].ARREADY(arready[I][l_r][0][1]);
+    a00.I[local].ARREADY(arready_local[I][0][0]);
 
-    A.E_O.write_address_channel(a_aw[5]);
-    A.E_O.write_data_channel(a_w[5]);
-    A.E_O.read_address_channel(a_ar[5]);
-    A.E_O.read_data_channel(a_r[5]);
-    A.E_O.write_response_channel(a_wr[5]);
-    A.E_O.AWREADY(a_awready[5]);
-    A.E_O.WREADY(a_wready[5]);
-    A.E_O.ARREADY(a_arready[5]);
-    A.E_O.RREADY(a_rready[5]);
-    A.E_O.BREADY(a_bready[5]);
-    A.E_O.BVALID(bvalid[5]);
 
-    A.W_O.write_address_channel(a_aw[6]);
-    A.W_O.write_data_channel(a_w[6]);
-    A.W_O.read_address_channel(a_ar[6]);
-    A.W_O.read_data_channel(a_r[6]);
-    A.W_O.write_response_channel(a_wr[6]);
-    A.W_O.AWREADY(a_awready[6]);
-    A.W_O.WREADY(a_wready[6]);
-    A.W_O.ARREADY(a_arready[6]);
-    A.W_O.RREADY(a_rready[6]);
-    A.W_O.BREADY(a_bready[6]);
-    A.W_O.BVALID(bvalid[6]);
+    a00.I[north].RREADY(rready[I][u_d][0][0]);
+    a00.I[south].RREADY(rready[I][u_d][0][1]);
+    a00.I[east].RREADY(rready[I][l_r][0][0]);
+    a00.I[west].RREADY(rready[I][l_r][0][1]);
+    a00.I[local].RREADY(rready_local[I][0][0]);
 
-    A.N_O.write_address_channel(a_aw[7]);
-    A.N_O.write_data_channel(a_w[7]);
-    A.N_O.read_address_channel(a_ar[7]);
-    A.N_O.read_data_channel(a_r[7]);
-    A.N_O.write_response_channel(a_wr[7]);
-    A.N_O.AWREADY(a_awready[7]);
-    A.N_O.WREADY(a_wready[7]);
-    A.N_O.ARREADY(a_arready[7]);
-    A.N_O.RREADY(a_rready[7]);
-    A.N_O.BREADY(a_bready[7]);
-    A.N_O.BVALID(bvalid[7]);
+    a00.I[north].BREADY(bready[I][u_d][0][0]);
+    a00.I[south].BREADY(bready[I][u_d][0][1]);
+    a00.I[east].BREADY(bready[I][l_r][0][0]);
+    a00.I[west].BREADY(bready[I][l_r][0][1]);
+    a00.I[local].BREADY(bready_local[I][0][0]);
+
+    //output
     
-    A.S_O.write_address_channel(a_aw[8]);
-    A.S_O.write_data_channel(a_w[8]);
-    A.S_O.read_address_channel(a_ar[8]);
-    A.S_O.read_data_channel(a_r[8]);
-    A.S_O.write_response_channel(a_wr[8]);
-    A.S_O.AWREADY(a_awready[8]);
-    A.S_O.WREADY(a_wready[8]);
-    A.S_O.ARREADY(a_arready[8]);
-    A.S_O.RREADY(a_rready[8]);
-    A.S_O.BREADY(a_bready[8]);
-    A.S_O.BVALID(bvalid[8]);
+    a00.O[north].write_address_channel(aw[O][u_d][0][0]);
+    a00.O[south].write_address_channel(aw[O][u_d][0][1]);
+    a00.O[east].write_address_channel(aw[O][l_r][0][0]);
+    a00.O[west].write_address_channel(aw[O][l_r][0][1]);
+    a00.O[local].write_address_channel(aw_local[O][0][0]);
 
-    A.L_O.write_address_channel(a_aw[9]);
-    A.L_O.write_data_channel(a_w[9]);
-    A.L_O.read_address_channel(a_ar[9]);
-    A.L_O.read_data_channel(a_r[9]);
-    A.L_O.write_response_channel(a_wr[9]);
-    A.L_O.AWREADY(a_awready[9]);
-    A.L_O.WREADY(a_wready[9]);
-    A.L_O.ARREADY(a_arready[9]);
-    A.L_O.RREADY(a_rready[9]);
-    A.L_O.BREADY(a_bready[9]);
-    A.L_O.BVALID(bvalid[9]);
+    a00.O[north].write_data_channel(w[O][u_d][0][0]);
+    a00.O[south].write_data_channel(w[O][u_d][0][1]);
+    a00.O[east].write_data_channel(w[O][l_r][0][0]);
+    a00.O[west].write_data_channel(w[O][l_r][0][1]);
+    a00.O[local].write_data_channel(w_local[O][0][0]);
+    
+
+    a00.O[north].write_response_channel(b[O][u_d][0][0]);
+    a00.O[south].write_response_channel(b[O][u_d][0][1]);
+    a00.O[east].write_response_channel(b[O][l_r][0][0]);
+    a00.O[west].write_response_channel(b[O][l_r][0][1]);
+    a00.O[local].write_response_channel(b_local[O][0][0]);
+
+    a00.O[north].AWVALID(awvalid[O][u_d][0][0]);
+    a00.O[south].AWVALID(awvalid[O][u_d][0][1]);
+    a00.O[east].AWVALID(awvalid[O][l_r][0][0]);
+    a00.O[west].AWVALID(awvalid[O][l_r][0][1]);
+    a00.O[local].AWVALID(awvalid_local[O][0][0]);
+
+    a00.O[north].WVALID(wvalid[O][u_d][0][0]);
+    a00.O[south].WVALID(wvalid[O][u_d][0][1]);
+    a00.O[east].WVALID(wvalid[O][l_r][0][0]);
+    a00.O[west].WVALID(wvalid[O][l_r][0][1]);
+    a00.O[local].WVALID(wvalid_local[O][0][0]);
+
+    a00.O[north].ARVALID(arvalid[O][u_d][0][0]);
+    a00.O[south].ARVALID(arvalid[O][u_d][0][1]);
+    a00.O[east].ARVALID(arvalid[O][l_r][0][0]);
+    a00.O[west].ARVALID(arvalid[O][l_r][0][1]);
+    a00.O[local].ARVALID(arvalid_local[O][0][0]);
 
 
-    /*Router b("21");
-    b.channel_north(b1);
-    b.channel_south(b2);
-    b.channel_east(b6);
-    b.channel_west(b3);
-    b.channel_local(b5);
-    sc_start();
-    a.set_position(2,2);
-    b.set_position(2,1);
-    b4.write("11111111111111111111111111111111");
-    sc_start();
-    cout << b6.read() << endl;*/
-    //b.print();
-        
-    //Write_Addr test = Write_Addr((Byte)3,(Int)12);
-    //cout << test << endl;
+    a00.O[north].RVALID(rvalid[O][u_d][0][0]);
+    a00.O[south].RVALID(rvalid[O][u_d][0][1]);
+    a00.O[east].RVALID(rvalid[O][l_r][0][0]);
+    a00.O[west].RVALID(rvalid[O][l_r][0][1]);
+    a00.O[local].RVALID(rvalid_local[O][0][0]);
 
-    return 2;
+    a00.O[north].BVALID(bvalid[O][u_d][0][0]);
+    a00.O[south].BVALID(bvalid[O][u_d][0][1]);
+    a00.O[east].BVALID(bvalid[O][l_r][0][0]);
+    a00.O[west].BVALID(bvalid[O][l_r][0][1]);
+    a00.O[local].BVALID(bvalid_local[O][0][0]);
+
+    a00.O[north].AWREADY(awready[O][u_d][0][0]);
+    a00.O[south].AWREADY(awready[O][u_d][0][1]);
+    a00.O[east].AWREADY(awready[O][l_r][0][0]);
+    a00.O[west].AWREADY(awready[O][l_r][0][1]);
+    a00.O[local].AWREADY(awready_local[O][0][0]);
+
+    a00.O[north].WREADY(wready[O][u_d][0][0]);
+    a00.O[south].WREADY(wready[O][u_d][0][1]);
+    a00.O[east].WREADY(wready[O][l_r][0][0]);
+    a00.O[west].WREADY(wready[O][l_r][0][1]);
+    a00.O[local].WREADY(wready_local[O][0][0]);
+
+    a00.O[north].ARREADY(arready[O][u_d][0][0]);
+    a00.O[south].ARREADY(arready[O][u_d][0][1]);
+    a00.O[east].ARREADY(arready[O][l_r][0][0]);
+    a00.O[west].ARREADY(arready[O][l_r][0][1]);
+    a00.O[local].ARREADY(arready_local[O][0][0]);
+
+
+    a00.O[north].RREADY(rready[O][u_d][0][0]);
+    a00.O[south].RREADY(rready[O][u_d][0][1]);
+    a00.O[east].RREADY(rready[O][l_r][0][0]);
+    a00.O[west].RREADY(rready[O][l_r][0][1]);
+    a00.O[local].RREADY(rready_local[O][0][0]);
+
+    a00.O[north].BREADY(bready[O][u_d][0][0]);
+    a00.O[south].BREADY(bready[O][u_d][0][1]);
+    a00.O[east].BREADY(bready[O][l_r][0][0]);
+    a00.O[west].BREADY(bready[O][l_r][0][1]);
+    a00.O[local].BREADY(bready_local[O][0][0]);
+
+    
+    return 0;
 }
