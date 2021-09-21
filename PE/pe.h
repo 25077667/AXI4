@@ -6,9 +6,47 @@
 #define PIXEL_SIZE 8 //2 hexical per pixel
 #include <systemc.h>
 
+class Convolution
+{
+    public:
+        int data[5][5],kernel[5][5];
+        int output;
+        void f();
+};
 
+class Pooling
+{
+    public:
+        int data[4];
+        int output;
+        void f();
+};
 
-SC_MODULE(Convolution)
+SC_MODULE(Layer12)
+{
+    sc_in_clk clk;
+    sc_in<int[4][5][5]> input_data;
+    sc_in<int[5][5]> input_kernel;
+    sc_out<int> output_data;
+    Convolution conv[4];
+    Pooling pool;
+    void f();
+    SC_CTOR(Layer12)
+    {
+        SC_METHOD(f);
+        sensitive << clk.pos();
+    }
+};
+
+SC_MODULE(Layer34)
+{
+    sc_in_clk clk;
+    SC_CTOR(Layer34)
+    {
+
+    }
+};
+/*SC_MODULE(Convolution)
 {
     sc_in_clk clk;
     sc_in<int[2][5][5]> input_data;
@@ -36,6 +74,6 @@ SC_MODULE(Pooling)
         SC_METHOD(f);
         sensitive << clk.pos();
     }
-};
+};*/
 
 #endif
