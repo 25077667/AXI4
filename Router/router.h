@@ -15,20 +15,20 @@ class AXI
 {
     public:
         //channel
-        sc_inout<sc_uint<54> > read_address_channel , write_address_channel;
-        sc_inout<sc_uint<41> > read_data_channel, write_data_channel;
+        sc_inout<sc_uint<54> > write_address_channel;
+        sc_inout<sc_uint<41> > write_data_channel;
         sc_inout<sc_uint<6> > write_response_channel;
         //READY
-        sc_inout<bool> AWREADY , WREADY , ARREADY , RREADY , BREADY;
+        sc_inout<bool> AWREADY , WREADY , BREADY;
         //VALID
-        sc_inout<bool> AWVALID , WVALID , ARVALID , RVALID , BVALID;
+        sc_inout<bool> AWVALID , WVALID , BVALID;
 };
 
 class Buffer
 {
     public: 
-        queue<sc_uint<54> > read_addr , write_addr;
-        queue<sc_uint<41> > read_data, write_data;
+        queue<sc_uint<54> > write_addr;
+        queue<sc_uint<41> > write_data;
         queue<sc_uint<6> > write_response;
 };
 

@@ -3,7 +3,6 @@
 
 #define PE_SIZE 4
 
-#define PIXEL_SIZE 8 //2 hexical per pixel
 #include <systemc.h>
 
 class Convolution
