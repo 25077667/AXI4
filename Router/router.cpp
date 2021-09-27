@@ -90,3 +90,78 @@ void Router::output()
     }
 }
 
+void Router::ready()
+{
+    for(int j = 0 ; j < AXI_NUM_PER_ROUTER ; j++)
+    {
+        if(i[j].write_addr.size() < MAX_ADDR_SIZE)
+            I[j].AWREADY = true;
+        if(i[j].write_data.size() < MAX_DATA_SIZE)
+            I[j].AWREADY = true;
+    }
+}
+
+void Router::valid()
+{
+    for(int j = 0 ; j < AXI_NUM_PER_ROUTER ; j++)
+    {
+        if(o[j].write_addr.size() < MAX_ADDR_SIZE)
+            I[j].AWVALID = true;
+        if(o[j].write_data.size() < MAX_DATA_SIZE)
+            I[j].AWVALID = true;
+    }
+}
+
+void Router::rout(Base_package &x,package_type t)
+{
+    Package_data cache = unpack(t,x); 
+    if(register_table.find(cache.id) == register_table.end())
+    {
+        if(t == AW)
+        {
+            if((int)(this->name()[0])-48 < cache.data/16 )
+                register_table[cache.id] = north;
+            else if((int)(this->name()[0])-48 > cache.data/16)
+                register_table[cache.id] = south;
+            else
+            {
+                if((int)(this->name()[1])-48 < cache.data%16 )
+                    register_table[cache.id] = west;
+                else if((int)(this->name()[1])-48 > cache.data%16)
+                    register_table[cache.id] = east;
+                else
+                    register_table[cache.id] = local;
+            }
+        }
+    }
+}
+
+void Router::f()
+{
+    Write_Addr cache_AW;
+    Write_Data cache_W;
+    Write_Responce cache_B;
+    for(int j = 0 ; j < AXI_NUM_PER_ROUTER ; j++)
+    {
+        if(!(i[j].write_addr.empty()))
+        {
+            cache_AW = i[j].write_addr.front();
+            i[j].write_addr.pop();
+            rout(cache_AW,AW);
+        }
+        if(!(i[j].write_data.empty()))
+        {
+            cache_W = i[j].write_data.front();
+            i[j].write_data.pop();
+            rout(cache_W,W);
+        }
+        if(!(i[j].write_data.empty()))
+        {
+            cache_W = i[j].write_data.front();
+            i[j].write_data.pop();
+            rout(cache_B,B);
+        }
+
+        
+    }
+}

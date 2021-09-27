@@ -5,11 +5,12 @@
 class Package_data
 {
     public:
+        //aw : address ; w : data , b : responece
         package_type type;
         int id;
-        //aw : address ; w : data , b : responece
         int data;
         Package_data(package_type t,int i,int d):type(t),id(i),data(d) {}
+        Package_data() {}
 };
 
 Base_package& pack(package_type,int);

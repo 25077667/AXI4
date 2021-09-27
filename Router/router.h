@@ -2,7 +2,8 @@
 #define __ROUTER_H__
 #include <systemc.h>
 #include <queue>
-#include "../Base/Base.h"
+#include "../PKG/package.h"
+
 
 #define MAX_ADDR_SIZE  3
 #define MAX_DATA_SIZE  6
@@ -15,9 +16,9 @@ class AXI
 {
     public:
         //channel
-        sc_inout<sc_uint<54> > write_address_channel;
-        sc_inout<sc_uint<41> > write_data_channel;
-        sc_inout<sc_uint<6> > write_response_channel;
+        sc_inout<Write_Addr> write_address_channel;
+        sc_inout<Write_Data> write_data_channel;
+        sc_inout<Write_Responce> write_response_channel;
         //READY
         sc_inout<bool> AWREADY , WREADY , BREADY;
         //VALID
@@ -27,9 +28,9 @@ class AXI
 class Buffer
 {
     public: 
-        queue<sc_uint<54> > write_addr;
-        queue<sc_uint<41> > write_data;
-        queue<sc_uint<6> > write_response;
+        queue<Write_Addr> write_addr;
+        queue<Write_Data> write_data;
+        queue<Write_Responce> write_response;
 };
 
 SC_MODULE(Router)
@@ -42,6 +43,10 @@ SC_MODULE(Router)
     map<sc_uint<4>,position> register_table;
     void input();
     void output();
+    void rout(Base_package &,package_type t);
+    void ready();
+    void valid();
+    void f();
     SC_CTOR(Router)
     {
         SC_METHOD(input);

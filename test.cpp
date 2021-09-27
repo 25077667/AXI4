@@ -1,20 +1,23 @@
-#include <iostream>
-#include <cstdlib>
-#include <string>
-using namespace std;
-int main()
-{
-    string x,y;
-    cout << "x,y : ";
-    cin >> x >> y;
-    string out = "echo ";
-    out += "\"";
-    out += x;
-    out += "\n";
-    out += y;
-    out += "\" | ";
-    out += "python test.py";
+#include <systemc.h>
 
-    system(out.c_str());
+int sc_main(int argc,char* argv[])
+{
+    sc_uint<4> a;
+    a = 1;
+    a <<= 1;
+    a += 1;
+    a <<= 2;
+    a +=1;
+    for(int i = 0 ; i < 4 ; i++)
+        std::cout << a[i] << " ";
+    std::cout << std::endl;
+    std::cout << a << endl;
+
+    sc_uint<4> b = 7;
+    for(int i = 0 ; i < 4 ; i++)
+        std::cout << b[i] << " ";
+    std::cout << std::endl;
+    std::cout << b << endl;
+
     return 0;
 }
