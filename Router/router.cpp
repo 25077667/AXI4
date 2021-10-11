@@ -120,20 +120,26 @@ void Router::rout(Base_package &x,package_type t)
         if(t == AW)
         {
             if((int)(this->name()[0])-48 < cache.data/16 )
-                register_table[cache.id] = north;
+                register_table[cache.id].pos = north;
             else if((int)(this->name()[0])-48 > cache.data/16)
-                register_table[cache.id] = south;
+                register_table[cache.id].pos = south;
             else
             {
                 if((int)(this->name()[1])-48 < cache.data%16 )
-                    register_table[cache.id] = west;
+                    register_table[cache.id].pos = west;
                 else if((int)(this->name()[1])-48 > cache.data%16)
-                    register_table[cache.id] = east;
+                    register_table[cache.id].pos = east;
                 else
-                    register_table[cache.id] = local;
+                    register_table[cache.id].pos = local;
             }
         }
+        register_table[cache.id].pkg_list.push_back(x);
     }
+    else
+        register_table[cache.id].pkg_list.push_back(x);
+    if(t == W)
+        if(cache.data%2 == 1)
+            register_table[cache.id].last = true;
 }
 
 void Router::f()
@@ -160,8 +166,6 @@ void Router::f()
             cache_W = i[j].write_data.front();
             i[j].write_data.pop();
             rout(cache_B,B);
-        }
-
-        
+        }  
     }
 }

@@ -40,7 +40,7 @@ SC_MODULE(Router)
     AXI I[AXI_NUM_PER_ROUTER],O[AXI_NUM_PER_ROUTER];
     //buf:buffer [nsewl]:direction [io]:input/output
     Buffer i[AXI_NUM_PER_ROUTER],o[AXI_NUM_PER_ROUTER];
-    map<sc_uint<4>,position> register_table;
+    map<sc_uint<4>,Pkg_pair> register_table;
     void input();
     void output();
     void rout(Base_package &,package_type t);

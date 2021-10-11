@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <systemc.h>
+#include <list>
 #include "../Base/Base.h"
 using namespace std;
 
@@ -58,5 +59,13 @@ class Write_Responce:public Base_package
         friend bool operator !=(Write_Responce,Write_Responce);
 };
 
+class Pkg_pair
+{
+    public:
+        list<Base_package&> pkg_list;
+        position pos;
+        bool last;
+    Pkg_pair() {last = false;}
+};
 
 #endif
