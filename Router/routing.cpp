@@ -1,5 +1,4 @@
 #include "Router/router.h"
-#include "NI/network_interface.h"
 SC_MODULE(Routing)
 {
     sc_in_clk clock;
