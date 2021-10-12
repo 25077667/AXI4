@@ -4,7 +4,7 @@
 #define DIRECTION_NUM 2
 
 #include <map>
-
+#include <systemc.h>
 enum position
 {
     east,
@@ -38,14 +38,17 @@ class Addr_pair
 {
     public:
         sc_uint<32> source , target;
+        Addr_pair() {source = target = 0;}
 };
 
-map<sc_uint<4>,Addr_pair> id_table;
+std::map<sc_uint<4>,Addr_pair> id_table;
 bool id_legal(sc_uint<4> id,sc_uint<32> addr)
 {
     if(id_table.find(id) != id_table.end())
         if(id_table[id].target == addr)
             return false;
+        else
+            return true;
     else
         return true;
 }

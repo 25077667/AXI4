@@ -2,7 +2,6 @@
 #define __NETWORK_INTERFACE_H__
 
 #include <iostream>
-#include <systemc.h>
 #include <list>
 #include "../Base/Base.h"
 using namespace std;
@@ -16,8 +15,7 @@ class Base_package
     public:
         virtual sc_uint<54> get();
         package_type get_type() {return NULL_TYPE;}
-        Base_package() {}
-        
+        Base_package() {}        
 };
 
 class Write_Addr:public Base_package
@@ -31,6 +29,8 @@ class Write_Addr:public Base_package
         package_type get_type() {return AW;}
         Write_Addr(sc_uint<4> awid = 0,sc_uint<32> awaddr = 0,sc_uint<4>awlen = 0,sc_uint<3>awsize = 0,sc_uint<2>awburst = 0,sc_uint<2>awlock = 0,sc_uint<4>awcache = 0,sc_uint<3>awport = 0);
         friend bool operator !=(Write_Addr,Write_Addr);
+        friend bool operator ==(Write_Addr,Write_Addr);
+        friend ostream& operator <<(ostream &,Write_Addr);
 };
 
 class Write_Data:public Base_package
@@ -44,6 +44,8 @@ class Write_Data:public Base_package
         package_type get_type() {return W;}
         Write_Data(sc_uint<4> wid = 0,sc_uint<32> wdata = 0,sc_uint<4> wstrb = 0,sc_uint<1> wlast = 0);
         friend bool operator !=(Write_Data,Write_Data);
+        friend bool operator ==(Write_Data,Write_Data);
+        friend ostream& operator <<(ostream &,Write_Data);
 };
 
 class Write_Responce:public Base_package
@@ -57,15 +59,9 @@ class Write_Responce:public Base_package
         package_type get_type() {return B;}
         Write_Responce(sc_uint<4> bid = 0,sc_uint<2> bresp = 0);
         friend bool operator !=(Write_Responce,Write_Responce);
+        friend bool operator ==(Write_Responce,Write_Responce);
+        friend ostream& operator <<(ostream &,Write_Responce);
 };
 
-class Pkg_pair
-{
-    public:
-        list<Base_package&> pkg_list;
-        position pos;
-        bool last;
-    Pkg_pair() {last = false;}
-};
 
 #endif

@@ -51,3 +51,45 @@ bool operator !=(Write_Responce x,Write_Responce y)
 {
     return x.data == y.data;
 }
+
+bool operator ==(Write_Addr x,Write_Addr y)
+{
+    if((x.get() == y.get()) && (x.get_type() == y.get_type()))
+        return true;
+    else
+        return false;
+}
+
+bool operator ==(Write_Data x,Write_Data y)
+{
+    if((x.get() == y.get()) && (x.get_type() == y.get_type()))
+        return true;
+    else
+        return false;
+}
+
+bool operator ==(Write_Responce x,Write_Responce y)
+{
+    if((x.get() == y.get()) && (x.get_type() == y.get_type()))
+        return true;
+    else
+        return false;
+}
+
+ostream& operator <<(ostream& s,Write_Addr x)
+{
+    s << x.get();
+    return s;
+}
+
+ostream& operator <<(ostream& s,Write_Data x)
+{
+    s << x.get();
+    return s;
+}
+
+ostream& operator <<(ostream& s,Write_Responce x)
+{
+    s << x.get();
+    return s;
+}

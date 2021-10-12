@@ -1,6 +1,6 @@
 #ifndef __ROUTER_H__
 #define __ROUTER_H__
-#include <systemc.h>
+
 #include <queue>
 #include "../PKG/package.h"
 
@@ -16,9 +16,9 @@ class AXI
 {
     public:
         //channel
-        sc_inout<Write_Addr> write_address_channel;
-        sc_inout<Write_Data> write_data_channel;
-        sc_inout<Write_Responce> write_response_channel;
+        sc_inout<sc_uint<54>> write_address_channel;
+        sc_inout<sc_uint<41>> write_data_channel;
+        sc_inout<sc_uint<6>> write_response_channel;
         //READY
         sc_inout<bool> AWREADY , WREADY , BREADY;
         //VALID
@@ -28,9 +28,9 @@ class AXI
 class Buffer
 {
     public: 
-        queue<Write_Addr> write_addr;
-        queue<Write_Data> write_data;
-        queue<Write_Responce> write_response;
+        queue<sc_uint<54>> write_addr;
+        queue<sc_uint<41>> write_data;
+        queue<sc_uint<6>> write_response;
 };
 
 SC_MODULE(Router)
@@ -43,16 +43,16 @@ SC_MODULE(Router)
     map<sc_uint<4>,Pkg_pair> register_table;
     void input();
     void output();
-    void rout(Base_package &,package_type t);
+    void rout(sc_uint<54>,package_type t);
     void ready();
     void valid();
     void f();
+    void push_out();
     SC_CTOR(Router)
     {
-        SC_METHOD(input);
-            sensitive << clk.pos();
-        SC_METHOD(output);
+        SC_METHOD(f);
             sensitive << clk.neg();
+        
     }
 };
 
