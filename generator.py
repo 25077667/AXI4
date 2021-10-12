@@ -1,6 +1,6 @@
 import sys
-#file = open("\\\\wsl$\\Arch\\home\\daven\\NSYSU_Project\\Router\\routing.cpp","w")
-file = open("./Router/routing.cpp","w")
+file = open("\\\\wsl$\\Arch\\home\\daven\\NSYSU_Project\\Router\\routing.cpp","w")
+#file = open("./Router/routing.cpp","w")
 x = sys.argv[1]
 y = sys.argv[2]
 print(x,y)
