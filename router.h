@@ -2,10 +2,9 @@
 #define __ROUTER_H__
 #include "AXI4.h"
 #include "systemc.h"
-#include <queue>
 
 
-SC_MODULE(router)
+SC_MODULE(Router)
 {
     sc_in_clk clk;
     IO_Port N,E,S,W,L;  //north,east,south,west,local;
@@ -13,8 +12,10 @@ SC_MODULE(router)
     void push();    //push package of all position
     void pop();     //pop package of all position
     void route();   //放入正確方向的buffer等待push出去下一個router
-    SC_CTOR(router)
+    void initialize()   //instead of using SC_CTOR as constructor
+    SC_CTOR(Router)
     {
+        initialize();
         SC_METHOD(push);
             sensitive << clk;
         SC_METHOD(pop);
@@ -23,3 +24,5 @@ SC_MODULE(router)
             sensitive << clk;
     }
 };
+
+#endif
