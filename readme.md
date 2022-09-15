@@ -1,7 +1,7 @@
 # ARM protocol based neural network on chip
 ## AMBA : AXI4 stream
 ## API : SystemC 
-- version : 2.3.1
+- version : 2.3.3
 
 ## AXI4 stream Channel
 - Data channel
