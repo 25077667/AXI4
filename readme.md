@@ -1,27 +1,15 @@
 # ARM protocol based neural network on chip
-## AMBA : AXI
+## AMBA : AXI4 stream
 ## API : SystemC 
 - version : 2.3.1
 
-## AXI Channel
-- Write Address Channel
-- Write Data Channel
-- Read Address Channel
-- Read Data Channel
-- Write Responce Channel
+## AXI4 stream Channel
+- Data chanel
 
 ## AXI signal
 
 ### READY
-- AWREADY 
-- WREADY
-- ARREADY
-- RREADY
-- BREADY
+- TREADY
 
 ### VALID
-- AWVALID
-- WVALID
-- ARVALID
-- RVALID
-- BVALID
+- TVALID
