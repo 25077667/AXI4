@@ -1,0 +1,5 @@
+[requires]
+systemc/2.3.3
+
+[generators]
+cmake
