@@ -3,16 +3,27 @@
 #include "AXI4.h"
 #include "systemc.h"
 
+#define POS_NUM 5
+
+class Point
+{
+    public:
+        int x,y;
+        Point() {x=y=0;}
+        Point(int a,int b) {x=a;y=b;}
+};
 
 SC_MODULE(Router)
 {
     sc_in_clk clk;
-    IO_Port N,E,S,W,L;  //north,east,south,west,local;
-    Buffer b_N,b_E,b_S,b_W,b_L;
+    IO_Port io[POS_NUM];  //north,east,south,west,local;
+    Buffer buf[POS_NUM]; 
+    queue<AXI4_Stream_package>local_buf;    //when package pop from input buffer and the output buffer is full,the pacakge push to this buffer
     void push();    //push package of all position
     void pop();     //pop package of all position
     void route();   //放入正確方向的buffer等待push出去下一個router
-    void initialize()   //instead of using SC_CTOR as constructor
+    void initialize();  //instead of using SC_CTOR as constructor
+    Point now;
     SC_CTOR(Router)
     {
         initialize();
@@ -24,5 +35,7 @@ SC_MODULE(Router)
             sensitive << clk;
     }
 };
+
+position find_position(unsigned);
 
 #endif
