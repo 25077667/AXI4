@@ -1,6 +1,6 @@
 #include "AXI4.h"
 
-AXI4_Stream_package AXI4_Stream_package::operator =(const AXI4_Stream_package &x)
+AXI4_Stream_package AXI4_Stream_package::operator=(const AXI4_Stream_package &x)
 {
     AXI4_Stream_package cache(0);
     cache.TDATA = x.TDATA;
@@ -9,11 +9,12 @@ AXI4_Stream_package AXI4_Stream_package::operator =(const AXI4_Stream_package &x
     cache.TLAST = x.TLAST;
     cache.TID = x.TID;
     cache.TDEST = x.TDEST;
-    //cache.TUSER = x.TUSER;
+    // cache.TUSER = x.TUSER;
     return cache;
 }
 
-AXI4_Stream_protocol AXI4_Stream_protocol::operator =(const AXI4_Stream_protocol &x)
+AXI4_Stream_protocol AXI4_Stream_protocol::operator=(
+    const AXI4_Stream_protocol &x)
 {
     AXI4_Stream_protocol cache(0);
     cache.ACLK = x.ACLK;
@@ -44,40 +45,33 @@ void AXI4_Stream_protocol::show()
 
 AXI4_Stream_package::AXI4_Stream_package(bool x)
 {
-    if(x)
-    {
+    if (x) {
         TDATA = 511;
         TSTRB = 1;
-        TKEEP  = 1;
+        TKEEP = 1;
         TLAST = 1;
         TID = 131071;
         TDEST = 131071;
-    }
-    else
-    {
+    } else {
         TDATA = 0;
         TSTRB = 0;
-        TKEEP  = 0;
+        TKEEP = 0;
         TLAST = 0;
         TID = 0;
         TDEST = 0;
     }
-    
 }
 
 
 AXI4_Stream_protocol::AXI4_Stream_protocol(bool x)
 {
-    if(x)
-    {
+    if (x) {
         ACLK = 1;
         ARESETn = 1;
         TVALID = 1;
         TREADY = 1;
         package = new AXI4_Stream_package(1);
-    }
-    else
-    {
+    } else {
         ACLK = 0;
         ARESETn = 0;
         TVALID = 0;
@@ -85,4 +79,3 @@ AXI4_Stream_protocol::AXI4_Stream_protocol(bool x)
         package = new AXI4_Stream_package(0);
     }
 }
-
