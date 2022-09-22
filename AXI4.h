@@ -8,6 +8,11 @@
 #include "systemc.h"
 using namespace std;
 
+enum position
+{
+    N,E,S,W,L
+};
+
 class AXI4_Stream_package
 {
     public:
@@ -18,7 +23,7 @@ class AXI4_Stream_package
         unsigned TID : 16;           //同時能有16個封包在4*4 mesh上
         unsigned TDEST : 16;         //4*4 mesh
         //unsigned TUSER : 16;       //還不知道要多大
-        AXI4_Stream_package operator =(const AXI4_Stream_package&);
+        AXI4_Stream_package operator =(const AXI4_Stream_package&);        
         void show();                 //for debugging
         AXI4_Stream_package(bool);
 };
@@ -32,6 +37,7 @@ class AXI4_Stream_protocol
         unsigned TREADY : 1;
         AXI4_Stream_package *package;
         AXI4_Stream_protocol operator =(const AXI4_Stream_protocol&);
+        AXI4_Stream_protocol operator =(const AXI4_Stream_package&);
         void show();                //for debugging
         AXI4_Stream_protocol(bool);
         ~AXI4_Stream_protocol() {delete package;}
@@ -47,8 +53,9 @@ class IO_Port
 class Buffer
 {
     public:
-        queue<AXI4_Stream_package> buf;
-        bool full() { return (buf.size() >= MAX_BUFFER_SIZE) ? true : false; }
+        queue<AXI4_Stream_package> ibuf,obuf;
 };
+
+bool full(queue<AXI4_Stream_package> x) { return (x.size() >= MAX_BUFFER_SIZE); }   //when push in to buffer , check if buffer is full
 
 #endif
